@@ -11,6 +11,7 @@ import { tokens } from 'styles/theme'
 
 type FieldType = Omit<FormRequest, 'last_name'> & {
   last_name: string
+  date: number | Date
 }
 
 interface Props {

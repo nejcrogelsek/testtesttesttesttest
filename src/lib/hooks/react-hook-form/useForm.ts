@@ -10,7 +10,7 @@ export const useForm = () => {
     phone: Yup.string().required('Please enter phone number'),
     barber: Yup.string().required('Please select a barber'),
     service: Yup.string().required('Please select a service'),
-    date: Yup.string().required('Please pick a date'),
+    date: Yup.date().typeError('Please pick a date').required('Please pick a date'),
     time: Yup.string().required('Please pick a time'),
     price: Yup.number().required(),
   })

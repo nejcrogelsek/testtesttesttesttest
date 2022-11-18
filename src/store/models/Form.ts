@@ -9,9 +9,7 @@ export interface FormRequest {
   time: string
   price: number
 }
-
 export interface FormResponse {
-  id: number
   startDate: number
   barberId: number
   serviceId: number

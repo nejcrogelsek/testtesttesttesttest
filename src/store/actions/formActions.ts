@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit'
 
-import { FormRequest } from '../models/Form'
+import { FormResponse } from '../models/Form'
 
-export const FORM_SLICE = 'appointments'
+export const FORM_SLICE = '/appointments'
 
-export const bookAppointment = createAction<FormRequest>(`${FORM_SLICE}/book`)
+export const bookAppointment = createAction<FormResponse>(`${FORM_SLICE}`)

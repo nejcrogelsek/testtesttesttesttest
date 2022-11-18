@@ -21,7 +21,18 @@ const LoadingProvider: FC<LoadingProviderProps> = ({ transitionDuration = 300, l
       {children}
       {(shouldRender || loading) &&
         createPortal(
-          <Box>
+          <Box sx={{
+            position: 'fixed',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            zIndex: 100,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#00000022',
+          }}>
             <RingLoader color="#ffffff" />
           </Box>,
           document.body,

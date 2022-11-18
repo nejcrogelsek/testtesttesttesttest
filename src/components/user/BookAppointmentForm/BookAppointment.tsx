@@ -3,20 +3,51 @@ import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import { fetchBarbers, fetchServices, fetchWorkHours } from 'api/api'
 import PhoneInput from 'components/ui/PhoneInput'
 import { useForm } from 'lib/hooks/react-hook-form/useForm'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Controller } from 'react-hook-form'
-import { FormRequest } from 'store/models/Form'
+import { useQuery } from 'react-query'
+import { bookAppointment } from 'store/actions/formActions'
+import { useAppDispatch } from 'store/app/hooks'
+import { FormRequest, FormResponse } from 'store/models/Form'
 
 const BookAppointment: FC = () => {
+  const { data: barbers } = useQuery('barbers', fetchBarbers)
+  const { data: services } = useQuery('services', fetchServices)
+  const { data: workHours } = useQuery('workHours', fetchWorkHours)
+
+  const dispatch = useAppDispatch()
   const isNonMobile = useMediaQuery('(min-width:600px)')
   const { handleSubmit, errors, reset, control } = useForm()
+  const [price, setPrice] = useState(0)
+  const [availableHours, setAvailableHours] = useState<string[]>([])
 
-  const onSubmit = handleSubmit((data: FormRequest) => {
-    console.log(data)
+  const onSubmit = handleSubmit((dataset: FormRequest) => {
+    const data: FormResponse = { barberId: parseInt(dataset.barber), serviceId: parseInt(dataset.service), startDate: new Date(dataset.date).getTime() }
+    dispatch(bookAppointment(data))
     reset()
+    setPrice(0)
   })
+
+  useEffect(() => {
+    if (workHours?.data.length > 0) {
+      const array = workHours?.data
+      const allAvailableHours: string[] = []
+      for (let index = 0; index < array.length; index++) {
+        const start = array[index].startHour
+        const end = parseInt(array[index].endHour)
+        const workingHours = end - start
+        allAvailableHours.push(`${start}:00`)
+        allAvailableHours.push(`${end - 1}:30`)
+        for (let i = 0; i < workingHours; i++) {
+          allAvailableHours.push(`${start + i}:00`)
+        }
+      }
+      setAvailableHours([...new Set(allAvailableHours)].sort())
+    }
+  }, [workHours])
 
   return (
     // eslint-disable-next-line jsx-a11y/aria-role
@@ -33,25 +64,6 @@ const BookAppointment: FC = () => {
       >
         <Controller
           control={control}
-          name="email"
-          render={({ field }) => (
-            <TextField
-              {...field}
-              fullWidth
-              variant="filled"
-              type="text"
-              label="Email"
-              name="email"
-              error={!!errors.email && !!errors.email.message}
-              helperText={errors.email && errors.email.message}
-              sx={{
-                gridColumn: 'span 4',
-              }}
-            />
-          )}
-        />
-        <Controller
-          control={control}
           name="first_name"
           render={({ field }) => (
             <TextField
@@ -64,7 +76,7 @@ const BookAppointment: FC = () => {
               error={!!errors.first_name && !!errors.first_name.message}
               helperText={errors.first_name && errors.first_name.message}
               sx={{
-                gridColumn: 'span 2',
+                gridColumn: { xs: 'span 4', md: 'span 2' },
               }}
             />
           )}
@@ -83,7 +95,26 @@ const BookAppointment: FC = () => {
               error={!!errors.last_name && !!errors.last_name.message}
               helperText={errors.last_name && errors.last_name.message}
               sx={{
-                gridColumn: 'span 2',
+                gridColumn: { xs: 'span 4', md: 'span 2' },
+              }}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="email"
+          render={({ field }) => (
+            <TextField
+              {...field}
+              fullWidth
+              variant="filled"
+              type="text"
+              label="Email"
+              name="email"
+              error={!!errors.email && !!errors.email.message}
+              helperText={errors.email && errors.email.message}
+              sx={{
+                gridColumn: { xs: 'span 4', md: 'span 2' },
               }}
             />
           )}
@@ -94,7 +125,7 @@ const BookAppointment: FC = () => {
           render={({ field }) => (
             <PhoneInput
               sx={{
-                gridColumn: 'span 4',
+                gridColumn: { xs: 'span 4', md: 'span 2' },
               }}
               errors={errors}
               field={field}
@@ -109,17 +140,17 @@ const BookAppointment: FC = () => {
               {...field}
               select
               variant="filled"
-              label="Select barber"
+              label="Select Barber"
               sx={{
-                gridColumn: 'span 4',
+                gridColumn: { xs: 'span 4', md: 'span 2' },
               }}
               error={!!errors.barber && !!errors.barber.message}
               helperText={errors.barber && errors.barber.message}
             >
-              <MenuItem value={1}>Something1</MenuItem>
-              <MenuItem value={2}>Something2</MenuItem>
-              <MenuItem value={3}>Something3</MenuItem>
-              <MenuItem value={4}>Something4</MenuItem>
+              <MenuItem></MenuItem>
+              {barbers?.data.map((barber, index: number) => (
+                <MenuItem key={index} value={barber.id}>{barber.firstName} {barber.lastName}</MenuItem>
+              ))}
             </TextField>
           )}
         />
@@ -131,21 +162,42 @@ const BookAppointment: FC = () => {
               {...field}
               select
               variant="filled"
-              label="Select service"
+              label="Select Service"
               sx={{
-                gridColumn: 'span 4',
+                gridColumn: { xs: 'span 4', md: 'span 2' },
               }}
               error={!!errors.service && !!errors.service.message}
               helperText={errors.service && errors.service.message}
             >
-              <MenuItem value={1}>Something1</MenuItem>
-              <MenuItem value={2}>Something2</MenuItem>
-              <MenuItem value={3}>Something3</MenuItem>
-              <MenuItem value={4}>Something4</MenuItem>
+              <MenuItem></MenuItem>
+              {services?.data.map((service, index: number) => (
+                <MenuItem key={index} value={service.id} onClickCapture={() => setPrice(service.price)}>{service.name}</MenuItem>
+              ))}
             </TextField>
           )}
         />
-
+        <Controller
+          control={control}
+          name="date"
+          render={({ field }) => (
+            <TextField
+              {...field}
+              fullWidth
+              variant="filled"
+              type="date"
+              label="Select Date"
+              name="date"
+              error={!!errors.date && !!errors.date.message}
+              helperText={errors.date && errors.date.message}
+              sx={{
+                gridColumn: { xs: 'span 4', md: 'span 2' },
+                '& > label': {
+                  transform: 'translate(12px,7px) scale(0.75)'
+                }
+              }}
+            />
+          )}
+        />
         <Controller
           control={control}
           name="time"
@@ -154,23 +206,42 @@ const BookAppointment: FC = () => {
               {...field}
               select
               variant="filled"
-              label="Select time"
+              label="Select Time"
               sx={{
-                gridColumn: 'span 4',
+                gridColumn: { xs: 'span 4', md: 'span 2' },
               }}
               error={!!errors.time && !!errors.time.message}
               helperText={errors.time && errors.time.message}
             >
-              <MenuItem value={1}>Something1</MenuItem>
-              <MenuItem value={2}>Something2</MenuItem>
-              <MenuItem value={3}>Something3</MenuItem>
-              <MenuItem value={4}>Something4</MenuItem>
+              <MenuItem></MenuItem>
+              {availableHours.map((hour, index: number) => {
+                return (
+                  <MenuItem key={index} value={hour}>{hour}</MenuItem>
+                )
+              })}
             </TextField>
           )}
         />
+        <TextField
+          disabled={true}
+          value={price}
+          fullWidth
+          variant="filled"
+          type="text"
+          label="Price"
+          name="price"
+          error={!!errors.price && !!errors.price.message}
+          helperText={errors.price && errors.price.message}
+          sx={{
+            gridColumn: 'span 4',
+            '& > label': {
+              transform: 'translate(12px,7px) scale(0.75)'
+            }
+          }}
+        />
       </Box>
-      <Box display="flex" justifyContent="end" mt="20px">
-        <Button type="submit" color="secondary" variant="contained">
+      <Box display="flex" justifyContent="center" mt="20px">
+        <Button sx={{ width: '100%' }} type="submit" color="secondary" variant="contained">
           Book Appointment
         </Button>
       </Box>

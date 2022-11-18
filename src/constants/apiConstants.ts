@@ -1,3 +1,6 @@
 export enum apiRoutes {
-  BOOK_APPOINTMENT = '/appointments/book',
+  GET_BARBERS = '/barbers',
+  GET_SERVICES = '/services',
+  GET_WORK_HOURS = '/workHours',
+  BOOK_APPOINTMENT = '/appointments',
 }

@@ -108,7 +108,9 @@ const Snackbar: FC<SnackbarProps> = ({ snackbar, animationFrom = 'none', transit
               }}
               onClick={() => dispatch(removeSnackbar(snackbar.id))}
             >
-              <CloseIcon />
+              <CloseIcon sx={{
+                fill: '#ffffff'
+              }} />
             </IconButton>
           )}
           {snackbar?.title}
