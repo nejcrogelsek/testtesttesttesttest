@@ -10,14 +10,9 @@ const onHome = () => {
   document.title = 'Template'
   document.body.id = 'home-page'
 }
-const onError = () => {
-  document.title = 'Template - Error'
-  document.body.id = 'error-page'
-}
 
 const callbacks: any = {
   '/': [onHome],
-  '/error': [onError],
 }
 
 export const addPageIdentification = (_case: string, fn: () => void) => {
