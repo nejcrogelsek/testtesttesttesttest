@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem'
+import { useTheme } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { fetchBarbers, fetchServices, fetchWorkHours } from 'api/api'
@@ -12,12 +13,15 @@ import { useQuery } from 'react-query'
 import { bookAppointment } from 'store/actions/formActions'
 import { useAppDispatch } from 'store/app/hooks'
 import { FormRequest, FormResponse } from 'store/models/Form'
+import { tokens } from 'styles/theme'
 
 const BookAppointment: FC = () => {
   const { data: barbers } = useQuery('barbers', fetchBarbers)
   const { data: services } = useQuery('services', fetchServices)
   const { data: workHours } = useQuery('workHours', fetchWorkHours)
 
+  const theme = useTheme()
+  const colors = tokens(theme.palette.mode)
   const dispatch = useAppDispatch()
   const isNonMobile = useMediaQuery('(min-width:600px)')
   const { handleSubmit, errors, reset, control } = useForm()
@@ -54,7 +58,7 @@ const BookAppointment: FC = () => {
     <form role="BookAppointmentForm" onSubmit={onSubmit}>
       <Box
         display="grid"
-        gap="16px"
+        gap={{ xs: '16px', lg: '32px' }}
         gridTemplateColumns="repeat(4, minmax(0, 1fr))"
         sx={{
           '& > div': {
@@ -71,12 +75,23 @@ const BookAppointment: FC = () => {
               fullWidth
               variant="filled"
               type="text"
-              label="First Name"
+              placeholder="First name"
               name="first_name"
               error={!!errors.first_name && !!errors.first_name.message}
               helperText={errors.first_name && errors.first_name.message}
               sx={{
                 gridColumn: { xs: 'span 4', md: 'span 2' },
+                height: '36px',
+                'input': {
+                  fontWeight: 600,
+                  background: 'white',
+                  color: 'black',
+                  paddingTop: '10px',
+                  '::placeholder': {
+                    fontSize: 14,
+                    fontWeight: 600,
+                  }
+                }
               }}
             />
           )}
@@ -90,12 +105,23 @@ const BookAppointment: FC = () => {
               fullWidth
               variant="filled"
               type="text"
-              label="Last Name"
+              placeholder="Last Name"
               name="last_name"
               error={!!errors.last_name && !!errors.last_name.message}
               helperText={errors.last_name && errors.last_name.message}
               sx={{
                 gridColumn: { xs: 'span 4', md: 'span 2' },
+                height: '36px',
+                'input': {
+                  fontWeight: 600,
+                  background: 'white',
+                  color: 'black',
+                  paddingTop: '10px',
+                  '::placeholder': {
+                    fontSize: 14,
+                    fontWeight: 600
+                  }
+                }
               }}
             />
           )}
@@ -109,12 +135,23 @@ const BookAppointment: FC = () => {
               fullWidth
               variant="filled"
               type="text"
-              label="Email"
+              placeholder="Email"
               name="email"
               error={!!errors.email && !!errors.email.message}
               helperText={errors.email && errors.email.message}
               sx={{
                 gridColumn: { xs: 'span 4', md: 'span 2' },
+                height: '36px',
+                'input': {
+                  fontWeight: 600,
+                  background: 'white',
+                  color: 'black',
+                  paddingTop: '10px',
+                  '::placeholder': {
+                    fontSize: 14,
+                    fontWeight: 600
+                  }
+                }
               }}
             />
           )}
@@ -140,9 +177,25 @@ const BookAppointment: FC = () => {
               {...field}
               select
               variant="filled"
-              label="Select Barber"
+              placeholder="Select Barber"
               sx={{
                 gridColumn: { xs: 'span 4', md: 'span 2' },
+                height: '36px',
+                '> div > div': {
+                  paddingTop: '10px',
+                  background: 'white',
+                  color: 'black'
+                },
+                'input': {
+                  fontWeight: 600,
+                  background: 'white',
+                  color: 'black',
+                  paddingTop: '10px',
+                  '::placeholder': {
+                    fontSize: 14,
+                    fontWeight: 600
+                  }
+                }
               }}
               error={!!errors.barber && !!errors.barber.message}
               helperText={errors.barber && errors.barber.message}
@@ -162,9 +215,25 @@ const BookAppointment: FC = () => {
               {...field}
               select
               variant="filled"
-              label="Select Service"
+              placeholder="Select Service"
               sx={{
                 gridColumn: { xs: 'span 4', md: 'span 2' },
+                height: '36px',
+                '> div > div': {
+                  paddingTop: '10px',
+                  background: 'white',
+                  color: 'black'
+                },
+                'input': {
+                  fontWeight: 600,
+                  background: 'white',
+                  color: 'black',
+                  paddingTop: '10px',
+                  '::placeholder': {
+                    fontSize: 14,
+                    fontWeight: 600
+                  }
+                }
               }}
               error={!!errors.service && !!errors.service.message}
               helperText={errors.service && errors.service.message}
@@ -185,12 +254,28 @@ const BookAppointment: FC = () => {
               fullWidth
               variant="filled"
               type="date"
-              label="Select Date"
+              placeholder="Select Date"
               name="date"
               error={!!errors.date && !!errors.date.message}
               helperText={errors.date && errors.date.message}
               sx={{
                 gridColumn: { xs: 'span 4', md: 'span 2' },
+                height: '36px',
+                '> div > div': {
+                  paddingTop: '10px',
+                  background: 'white',
+                  color: 'black'
+                },
+                'input': {
+                  fontWeight: 600,
+                  background: 'white',
+                  color: 'black',
+                  paddingTop: '10px',
+                  '::placeholder': {
+                    fontSize: 14,
+                    fontWeight: 600
+                  }
+                },
                 '& > label': {
                   transform: 'translate(12px,7px) scale(0.75)'
                 }
@@ -206,9 +291,25 @@ const BookAppointment: FC = () => {
               {...field}
               select
               variant="filled"
-              label="Select Time"
+              placeholder="Select Time"
               sx={{
                 gridColumn: { xs: 'span 4', md: 'span 2' },
+                height: '36px',
+                '> div > div': {
+                  paddingTop: '10px',
+                  background: 'white',
+                  color: 'black'
+                },
+                'input': {
+                  fontWeight: 600,
+                  background: 'white',
+                  color: 'black',
+                  paddingTop: '10px',
+                  '::placeholder': {
+                    fontSize: 14,
+                    fontWeight: 600
+                  }
+                }
               }}
               error={!!errors.time && !!errors.time.message}
               helperText={errors.time && errors.time.message}
@@ -228,11 +329,22 @@ const BookAppointment: FC = () => {
           fullWidth
           variant="filled"
           type="text"
-          label="Price"
+          placeholder="Price"
           name="price"
           error={!!errors.price && !!errors.price.message}
           helperText={errors.price && errors.price.message}
           sx={{
+            height: '36px',
+            'input': {
+              fontWeight: 600,
+              background: 'white',
+              color: 'black',
+              paddingTop: '10px',
+              '::placeholder': {
+                fontSize: 14,
+                fontWeight: 600
+              }
+            },
             gridColumn: 'span 4',
             '& > label': {
               transform: 'translate(12px,7px) scale(0.75)'
@@ -241,11 +353,11 @@ const BookAppointment: FC = () => {
         />
       </Box>
       <Box display="flex" justifyContent="center" mt="20px">
-        <Button sx={{ width: '100%' }} type="submit" color="secondary" variant="contained">
+        <Button sx={{ fontWeight: 600, width: '100%', backgroundColor: colors.orange, '&:hover': { backgroundColor: `${colors.orange} !important` } }} type="submit" color="secondary" variant="contained">
           Book Appointment
         </Button>
       </Box>
-    </form>
+    </form >
   )
 }
 

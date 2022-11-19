@@ -11,7 +11,7 @@ export const tokens = (mode: ModeType) => ({
           100: '#e0e0e0',
           200: '#c2c2c2',
           300: '#a3a3a3',
-          400: '#858585',
+          400: '#717171', // manually changed
           500: '#666666',
           600: '#525252',
           700: '#3d3d3d',
@@ -60,10 +60,11 @@ export const tokens = (mode: ModeType) => ({
           600: '#535ac8',
           700: '#3e4396',
           800: '#2a2d64',
-          900: '#151632',
+          900: '#1C2843', // manually changed
         },
         white: '#ffffff',
-        black: '#000000',
+        black: '#2D2720',
+        orange: '#FE9565', // manually added
       }
     : {
         grey: {
@@ -72,7 +73,7 @@ export const tokens = (mode: ModeType) => ({
           300: '#3d3d3d',
           400: '#525252',
           500: '#666666',
-          600: '#858585',
+          600: '#717171', // manually changed
           700: '#a3a3a3',
           800: '#c2c2c2',
           900: '#e0e0e0',
@@ -111,7 +112,7 @@ export const tokens = (mode: ModeType) => ({
           900: '#f8dcdb',
         },
         blueAccent: {
-          100: '#151632',
+          100: '#1C2843', // manually changed
           200: '#2a2d64',
           300: '#3e4396',
           400: '#535ac8',
@@ -119,10 +120,11 @@ export const tokens = (mode: ModeType) => ({
           600: '#868dfb',
           700: '#a4a9fc',
           800: '#c3c6fd',
-          900: '#e1e2fe',
+          900: '#1C2843',
         },
-        white: '#000000',
+        white: '#2D2720',
         black: '#ffffff',
+        orange: '#FE9565', // manually added
       }),
 })
 
@@ -150,7 +152,10 @@ export const themeSettings = (mode: ModeType): ThemeOptions => {
               light: colors.grey[100],
             },
             background: {
-              default: colors.primary[500],
+              default: '#FCF4EA',
+            },
+            orange: {
+              default: '#FE9565',
             },
           }
         : {
@@ -170,36 +175,47 @@ export const themeSettings = (mode: ModeType): ThemeOptions => {
               light: colors.grey[100],
             },
             background: {
-              default: '#fcfcfc',
+              default: '#FCF4EA',
+            },
+            orange: {
+              default: '#FE9565',
             },
           }),
     },
     typography: {
-      fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
+      fontFamily: ['Squada One', 'cursive'].join(','),
       fontSize: 12,
       h1: {
-        fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
-        fontSize: 40,
+        fontFamily: ['Squada One', 'cursive'].join(','),
+        fontSize: 58,
       },
       h2: {
-        fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
+        fontFamily: ['Squada One', 'cursive'].join(','),
         fontSize: 32,
       },
       h3: {
-        fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
+        fontFamily: ['Squada One', 'cursive'].join(','),
         fontSize: 24,
       },
       h4: {
-        fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
+        fontFamily: ['Squada One', 'cursive'].join(','),
         fontSize: 20,
       },
       h5: {
-        fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
+        fontFamily: ['Squada One', 'cursive'].join(','),
         fontSize: 16,
       },
       h6: {
-        fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
+        fontFamily: ['Squada One', 'cursive'].join(','),
         fontSize: 14,
+      },
+      body1: {
+        fontFamily: ['Squada One', 'cursive'].join(','),
+        fontSize: 14,
+      },
+      button: {
+        fontFamily: ['Roboto Slab', 'cursive'].join(','),
+        fontSize: 18,
       },
     },
     breakpoints: {
@@ -229,41 +245,6 @@ export const themeSettings = (mode: ModeType): ThemeOptions => {
             },
           },
         },
-      },
-      MuiButton: {
-        variants: [
-          {
-            props: { color: 'secondary', variant: 'contained' },
-            style: {
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
-              '&:hover': {
-                backgroundColor: `${colors.blueAccent[700]}aa`,
-                borderColor: colors.blueAccent[700],
-              },
-            },
-          },
-          {
-            props: { color: 'secondary', variant: 'outlined' },
-            style: {
-              backgroundColor: 'transparent',
-              color: colors.grey[100],
-              borderColor: colors.blueAccent[700],
-              '&:hover': {
-                backgroundColor: `${colors.blueAccent[700]}33`,
-                borderColor: colors.blueAccent[700],
-              },
-            },
-          },
-          {
-            props: { color: 'error', variant: 'outlined' },
-            style: {
-              '&:hover': {
-                borderColor: 'rgba(244, 67, 54, 0.5)',
-              },
-            },
-          },
-        ],
       },
     },
   }

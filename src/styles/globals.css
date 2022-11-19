@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Squada+One&display=swap');
+/* font-family: 'Squada One', cursive; */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/* font-family: 'Roboto Slab', sans-serif; */
 
 *,
 html,
@@ -6,11 +9,37 @@ body {
   box-sizing: border-box;
 }
 
+body {
+  font-family: 'Squada One', cursive;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Squada One', cursive !important;
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+  font-size: 58px !important;
+}
+
+body {
+  background-color: #FCF4EA;
+}
+
 html,
 body .app .content {
   height: 100%;
   width: 100%;
-  font-family: 'Source Sans Pro', sans-serif;
+}
+
+img {
+  max-width: 100%;
 }
 
 .app {

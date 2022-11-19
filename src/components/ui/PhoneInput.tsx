@@ -33,12 +33,12 @@ const PhoneInput: FC<Props> = ({ sx, errors, field }) => {
           '> input': {
             boxShadow: errors?.phone ? '0 2px 0 #d32f2f' : 'none',
             width: '100%',
-            height: '52.7px',
-            backgroundColor: mode === 'dark' ? '#293040' : '#EDEDED',
+            height: '41px',
+            backgroundColor: 'white',
             color: colors.white,
           },
           '.flag-dropdown': {
-            backgroundColor: mode === 'dark' ? '#293040' : '#EDEDED',
+            backgroundColor: 'white',
             '& .open': {
               backgroundColor: mode === 'dark' ? '#293040 !important' : '#EDEDED !important',
             },
@@ -82,7 +82,7 @@ const PhoneInput: FC<Props> = ({ sx, errors, field }) => {
             },
           },
           '& :hover': {
-            backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.13)' : 'rgba(0, 0, 0, 0.09)',
+            backgroundColor: 'white',
           },
         },
       }}
