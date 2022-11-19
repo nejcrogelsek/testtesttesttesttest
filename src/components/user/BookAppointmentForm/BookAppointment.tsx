@@ -4,35 +4,68 @@ import MenuItem from '@mui/material/MenuItem'
 import { useTheme } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { fetchBarbers, fetchServices, fetchWorkHours } from 'api/api'
+import { fetchAppointments, fetchBarbers, fetchServices, fetchWorkHours } from 'api/api'
 import PhoneInput from 'components/ui/PhoneInput'
 import { useForm } from 'lib/hooks/react-hook-form/useForm'
 import { FC, useEffect, useState } from 'react'
 import { Controller } from 'react-hook-form'
 import { useQuery } from 'react-query'
 import { bookAppointment } from 'store/actions/formActions'
-import { useAppDispatch } from 'store/app/hooks'
+import { useAppDispatch, useAppSelector } from 'store/app/hooks'
+import { addSnackbar } from 'store/features/globalSlice'
 import { FormRequest, FormResponse } from 'store/models/Form'
+import { SnackbarType } from 'store/models/Snackbar'
 import { tokens } from 'styles/theme'
 
 const BookAppointment: FC = () => {
   const { data: barbers } = useQuery('barbers', fetchBarbers)
   const { data: services } = useQuery('services', fetchServices)
   const { data: workHours } = useQuery('workHours', fetchWorkHours)
+  const { data: appointments } = useQuery('appointments', fetchAppointments)
 
   const theme = useTheme()
   const colors = tokens(theme.palette.mode)
+  const snackbars = useAppSelector(state => state.global.snackbars)
   const dispatch = useAppDispatch()
   const isNonMobile = useMediaQuery('(min-width:600px)')
   const { handleSubmit, errors, reset, control } = useForm()
   const [price, setPrice] = useState(0)
   const [availableHours, setAvailableHours] = useState<string[]>([])
+  const [booked, setBooked] = useState<any[]>([])
 
-  const onSubmit = handleSubmit((dataset: FormRequest) => {
-    const data: FormResponse = { barberId: parseInt(dataset.barber), serviceId: parseInt(dataset.service), startDate: new Date(dataset.date).getTime() }
-    dispatch(bookAppointment(data))
-    reset()
-    setPrice(0)
+  const checkIfAlreadyBooked = async (dataset: FormRequest): Promise<boolean> => {
+    const mydate = new Date(dataset.date).getTime()
+    if (booked.length <= 0) return true
+    for (let i = 0; i < booked.length; i++) {
+      const element = booked[i]
+      if (element?.barberId === parseInt(dataset.barber) && mydate === element?.startDate) return false
+      if (element?.barberId === parseInt(dataset.barber) && mydate === element?.startDate && parseInt(dataset.service) !== element?.serviceId) return false
+    }
+
+    return true
+  }
+
+  useEffect(() => {
+    if (appointments && appointments.data.length > 0) {
+      setBooked(appointments.data)
+    }
+  }, [appointments])
+
+
+  const onSubmit = handleSubmit(async (dataset: FormRequest) => {
+    if (await checkIfAlreadyBooked(dataset)) {
+      const data: FormResponse = { barberId: parseInt(dataset.barber), serviceId: parseInt(dataset.service), startDate: new Date(dataset.date).getTime() }
+      dispatch(bookAppointment(data))
+      reset()
+      setPrice(0)
+    } else {
+      dispatch(addSnackbar({
+        id: `error-${snackbars.length}`,
+        type: SnackbarType.ERROR,
+        title: 'Your barber is unavailable at this time.',
+        close: true,
+      }))
+    }
   })
 
   useEffect(() => {
@@ -49,7 +82,8 @@ const BookAppointment: FC = () => {
           allAvailableHours.push(`${start + i}:00`)
         }
       }
-      setAvailableHours([...new Set(allAvailableHours)].sort())
+      const a = [...new Set(allAvailableHours)].sort()
+      setAvailableHours(a.filter(a => !a.startsWith('11', 0) && !a.startsWith('16', 0)))
     }
   }, [workHours])
 
@@ -82,6 +116,11 @@ const BookAppointment: FC = () => {
               sx={{
                 gridColumn: { xs: 'span 4', md: 'span 2' },
                 height: '36px',
+                '> div': {
+                  '&::after': {
+                    borderBottom: 'none !important'
+                  }
+                },
                 'input': {
                   fontWeight: 600,
                   background: 'white',
@@ -112,6 +151,11 @@ const BookAppointment: FC = () => {
               sx={{
                 gridColumn: { xs: 'span 4', md: 'span 2' },
                 height: '36px',
+                '> div': {
+                  '&::after': {
+                    borderBottom: 'none !important'
+                  }
+                },
                 'input': {
                   fontWeight: 600,
                   background: 'white',
@@ -142,6 +186,11 @@ const BookAppointment: FC = () => {
               sx={{
                 gridColumn: { xs: 'span 4', md: 'span 2' },
                 height: '36px',
+                '> div': {
+                  '&::after': {
+                    borderBottom: 'none !important'
+                  }
+                },
                 'input': {
                   fontWeight: 600,
                   background: 'white',
@@ -181,10 +230,18 @@ const BookAppointment: FC = () => {
               sx={{
                 gridColumn: { xs: 'span 4', md: 'span 2' },
                 height: '36px',
-                '> div > div': {
-                  paddingTop: '10px',
-                  background: 'white',
-                  color: 'black'
+                '> div': {
+                  '&::after': {
+                    borderBottom: 'none !important'
+                  },
+                  '> div': {
+                    paddingTop: '10px',
+                    background: 'white',
+                    color: 'black',
+                    '&:focus': {
+                      backgroundColor: 'white'
+                    },
+                  },
                 },
                 'input': {
                   fontWeight: 600,
@@ -219,10 +276,18 @@ const BookAppointment: FC = () => {
               sx={{
                 gridColumn: { xs: 'span 4', md: 'span 2' },
                 height: '36px',
-                '> div > div': {
-                  paddingTop: '10px',
-                  background: 'white',
-                  color: 'black'
+                '> div': {
+                  '&::after': {
+                    borderBottom: 'none !important'
+                  },
+                  '> div': {
+                    paddingTop: '10px',
+                    background: 'white',
+                    color: 'black',
+                    '&:focus': {
+                      backgroundColor: 'white'
+                    },
+                  },
                 },
                 'input': {
                   fontWeight: 600,
@@ -261,10 +326,18 @@ const BookAppointment: FC = () => {
               sx={{
                 gridColumn: { xs: 'span 4', md: 'span 2' },
                 height: '36px',
-                '> div > div': {
-                  paddingTop: '10px',
-                  background: 'white',
-                  color: 'black'
+                '> div': {
+                  '&::after': {
+                    borderBottom: 'none !important'
+                  },
+                  '> div': {
+                    paddingTop: '10px',
+                    background: 'white',
+                    color: 'black',
+                    '&:focus': {
+                      backgroundColor: 'white'
+                    },
+                  },
                 },
                 'input': {
                   fontWeight: 600,
@@ -295,10 +368,18 @@ const BookAppointment: FC = () => {
               sx={{
                 gridColumn: { xs: 'span 4', md: 'span 2' },
                 height: '36px',
-                '> div > div': {
-                  paddingTop: '10px',
-                  background: 'white',
-                  color: 'black'
+                '> div': {
+                  '&::after': {
+                    borderBottom: 'none !important'
+                  },
+                  '> div': {
+                    paddingTop: '10px',
+                    background: 'white',
+                    color: 'black',
+                    '&:focus': {
+                      backgroundColor: 'white'
+                    },
+                  },
                 },
                 'input': {
                   fontWeight: 600,
@@ -352,7 +433,7 @@ const BookAppointment: FC = () => {
           }}
         />
       </Box>
-      <Box display="flex" justifyContent="center" mt="20px">
+      <Box display="flex" justifyContent="center" mt="2rem">
         <Button sx={{ fontWeight: 600, width: '100%', backgroundColor: colors.orange, '&:hover': { backgroundColor: `${colors.orange} !important` } }} type="submit" color="secondary" variant="contained">
           Book Appointment
         </Button>

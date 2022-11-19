@@ -5,7 +5,7 @@ import * as Yup from 'yup'
 export const useForm = () => {
   const FormSchema = Yup.object().shape({
     first_name: Yup.string().required('Please enter your first name'),
-    last_name: Yup.string().notRequired(),
+    last_name: Yup.string().required('Please enter your last name'),
     email: Yup.string().email('Please enter a valid email').required(),
     phone: Yup.string().required('Please enter phone number'),
     barber: Yup.string().required('Please select a barber'),

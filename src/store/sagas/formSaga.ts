@@ -1,6 +1,8 @@
 import instance from 'api/axios'
 import { AxiosResponse } from 'axios'
 import { apiRoutes } from 'constants/apiConstants'
+import { routes } from 'constants/routesConstants'
+import { push } from 'redux-first-history'
 import { put } from 'redux-saga/effects'
 import { SnackbarType } from 'store/models/Snackbar'
 
@@ -19,15 +21,7 @@ export function* BookAppointmentSaga(action: ReturnType<typeof bookAppointment>)
       },
       {},
     )) as AxiosResponse<FormResponse>
-    yield put(
-      addSnackbar({
-        id: `success-${response.data.startDate}`,
-        type: SnackbarType.SUCCESS,
-        body: `Barber: ${response.data.barberId}; Service: ${response.data.serviceId}; Date: ${response.data.startDate}`,
-        title: 'Successfully booked appointment',
-        close: true
-      }),
-    )
+    yield put(push(routes.SUCCESS))
   } catch (e) {
     const error = e as IError
     yield put(
