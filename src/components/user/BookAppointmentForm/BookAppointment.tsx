@@ -434,7 +434,7 @@ const BookAppointment: FC = () => {
         />
       </Box>
       <Box display="flex" justifyContent="center" mt="2rem">
-        <Button sx={{ fontWeight: 600, width: '100%', backgroundColor: colors.orange, '&:hover': { backgroundColor: `${colors.orange} !important` } }} type="submit" color="secondary" variant="contained">
+        <Button sx={{ fontSize: '18px', fontWeight: 600, width: '100%', backgroundColor: colors.orange, '&:hover': { backgroundColor: `${colors.orange} !important` } }} type="submit" color="secondary" variant="contained">
           Book Appointment
         </Button>
       </Box>
