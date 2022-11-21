@@ -222,92 +222,132 @@ const BookAppointment: FC = () => {
           control={control}
           name="barber"
           render={({ field }) => (
-            <TextField
-              {...field}
-              select
-              variant="filled"
-              placeholder="Select Barber"
-              sx={{
-                gridColumn: { xs: 'span 4', md: 'span 2' },
-                height: '36px',
-                '> div': {
-                  '&::after': {
-                    borderBottom: 'none !important'
-                  },
+            <Box sx={{
+              gridColumn: { xs: 'span 4', md: 'span 2' },
+              'label': {
+                fontSize: '14px',
+                top: '-5px',
+                color: '#ABABAB',
+                fontWeight: 600,
+                display: 'block !important',
+                '&.Mui-focused': {
+                  display: 'none !important'
+                },
+                '&:focus': {
+                  display: 'none !important'
+                },
+                '&[data-shrink="true"]': {
+                  display: 'none !important'
+                }
+              }
+            }}>
+              <TextField
+                {...field}
+                select
+                variant="filled"
+                label="Select Barber"
+                sx={{
+                  width: '100%',
+                  height: '36px',
                   '> div': {
-                    paddingTop: '10px',
-                    background: 'white',
-                    color: 'black',
-                    '&:focus': {
-                      backgroundColor: 'white'
+                    '&::after': {
+                      borderBottom: 'none !important'
+                    },
+                    '> div': {
+                      paddingTop: '10px',
+                      background: 'white',
+                      color: 'black',
+                      '&:focus': {
+                        backgroundColor: 'white'
+                      },
                     },
                   },
-                },
-                'input': {
-                  fontWeight: 600,
-                  background: 'white',
-                  color: 'black',
-                  paddingTop: '10px',
-                  '::placeholder': {
-                    fontSize: 14,
-                    fontWeight: 600
+                  'input': {
+                    fontWeight: 600,
+                    background: 'white',
+                    color: 'black',
+                    paddingTop: '10px',
+                    '::placeholder': {
+                      fontSize: 14,
+                      fontWeight: 600
+                    }
                   }
-                }
-              }}
-              error={!!errors.barber && !!errors.barber.message}
-              helperText={errors.barber && errors.barber.message}
-            >
-              <MenuItem></MenuItem>
-              {barbers?.data.map((barber, index: number) => (
-                <MenuItem key={index} value={barber.id}>{barber.firstName} {barber.lastName}</MenuItem>
-              ))}
-            </TextField>
+                }}
+                error={!!errors.barber && !!errors.barber.message}
+                helperText={errors.barber && errors.barber.message}
+              >
+                <MenuItem></MenuItem>
+                {barbers?.data.map((barber, index: number) => (
+                  <MenuItem key={index} value={barber.id}>{barber.firstName} {barber.lastName}</MenuItem>
+                ))}
+              </TextField>
+            </Box>
           )}
         />
         <Controller
           control={control}
           name="service"
           render={({ field }) => (
-            <TextField
-              {...field}
-              select
-              variant="filled"
-              placeholder="Select Service"
-              sx={{
-                gridColumn: { xs: 'span 4', md: 'span 2' },
-                height: '36px',
-                '> div': {
-                  '&::after': {
-                    borderBottom: 'none !important'
-                  },
+            <Box sx={{
+              gridColumn: { xs: 'span 4', md: 'span 2' },
+              'label': {
+                fontSize: '14px',
+                top: '-5px',
+                color: '#ABABAB',
+                fontWeight: 600,
+                display: 'block !important',
+                '&.Mui-focused': {
+                  display: 'none !important'
+                },
+                '&:focus': {
+                  display: 'none !important'
+                },
+                '&[data-shrink="true"]': {
+                  display: 'none !important'
+                }
+              }
+            }}>
+              <TextField
+                {...field}
+                select
+                variant="filled"
+                label="Select Service"
+                sx={{
+                  width: '100%',
+                  height: '36px',
                   '> div': {
-                    paddingTop: '10px',
-                    background: 'white',
-                    color: 'black',
-                    '&:focus': {
-                      backgroundColor: 'white'
+                    '&::after': {
+                      borderBottom: 'none !important'
+                    },
+                    '> div': {
+                      paddingTop: '10px',
+                      background: 'white',
+                      color: 'black',
+                      '&:focus': {
+                        backgroundColor: 'white'
+                      },
                     },
                   },
-                },
-                'input': {
-                  fontWeight: 600,
-                  background: 'white',
-                  color: 'black',
-                  paddingTop: '10px',
-                  '::placeholder': {
-                    fontSize: 14,
-                    fontWeight: 600
+                  'input': {
+                    fontWeight: 600,
+                    background: 'white',
+                    color: 'black',
+                    paddingTop: '10px',
+                    '::placeholder': {
+                      fontSize: 14,
+                      fontWeight: 600
+                    }
                   }
-                }
-              }}
-              error={!!errors.service && !!errors.service.message}
-              helperText={errors.service && errors.service.message}
-            >
-              <MenuItem></MenuItem>
-              {services?.data.map((service, index: number) => (
-                <MenuItem key={index} value={service.id} onClickCapture={() => setPrice(service.price)}>{service.name}</MenuItem>
-              ))}
-            </TextField>
+                }}
+                error={!!errors.service && !!errors.service.message}
+                helperText={errors.service && errors.service.message}
+              >
+                <MenuItem></MenuItem>
+                {services?.data.map((service, index: number) => (
+                  <MenuItem key={index} value={service.id} onClickCapture={() => setPrice(service.price)}>{service.name}</MenuItem>
+                ))}
+              </TextField>
+            </Box>
           )}
         />
         <Controller
@@ -360,48 +400,68 @@ const BookAppointment: FC = () => {
           control={control}
           name="time"
           render={({ field }) => (
-            <TextField
-              {...field}
-              select
-              variant="filled"
-              placeholder="Select Time"
-              sx={{
-                gridColumn: { xs: 'span 4', md: 'span 2' },
-                height: '36px',
-                '> div': {
-                  '&::after': {
-                    borderBottom: 'none !important'
-                  },
+            <Box sx={{
+              gridColumn: { xs: 'span 4', md: 'span 2' },
+              'label': {
+                fontSize: '14px',
+                top: '-5px',
+                color: '#ABABAB',
+                fontWeight: 600,
+                display: 'block !important',
+                '&.Mui-focused': {
+                  display: 'none !important'
+                },
+                '&:focus': {
+                  display: 'none !important'
+                },
+                '&[data-shrink="true"]': {
+                  display: 'none !important'
+                }
+              }
+            }}>
+              <TextField
+                {...field}
+                select
+                variant="filled"
+                label="Select Time"
+                sx={{
+                  width: '100%',
+                  height: '36px',
                   '> div': {
-                    paddingTop: '10px',
-                    background: 'white',
-                    color: 'black',
-                    '&:focus': {
-                      backgroundColor: 'white'
+                    '&::after': {
+                      borderBottom: 'none !important'
+                    },
+                    '> div': {
+                      paddingTop: '10px',
+                      background: 'white',
+                      color: 'black',
+                      '&:focus': {
+                        backgroundColor: 'white'
+                      },
                     },
                   },
-                },
-                'input': {
-                  fontWeight: 600,
-                  background: 'white',
-                  color: 'black',
-                  paddingTop: '10px',
-                  '::placeholder': {
-                    fontSize: 14,
-                    fontWeight: 600
+                  'input': {
+                    fontWeight: 600,
+                    background: 'white',
+                    color: 'black',
+                    paddingTop: '10px',
+                    '::placeholder': {
+                      fontSize: 14,
+                      fontWeight: 600
+                    }
                   }
-                }
-              }}
-              error={!!errors.time && !!errors.time.message}
-              helperText={errors.time && errors.time.message}
-            >
-              <MenuItem></MenuItem>
-              {availableHours.map((hour, index: number) => {
-                return (
-                  <MenuItem key={index} value={hour}>{hour}</MenuItem>
-                )
-              })}
-            </TextField>
+                }}
+                error={!!errors.time && !!errors.time.message}
+                helperText={errors.time && errors.time.message}
+              >
+                <MenuItem></MenuItem>
+                {availableHours.map((hour, index: number) => {
+                  return (
+                    <MenuItem key={index} value={hour}>{hour}</MenuItem>
+                  )
+                })}
+              </TextField>
+            </Box>
           )}
         />
         <TextField
