@@ -60,142 +60,25 @@
   ],
   "appointments": [
     {
-      "id": 1,
-      "startDate": 1579674600,
-      "barberId": 1,
-      "serviceId": 2
-    },
-    {
-      "id": 2,
-      "startDate": 1579680900,
-      "barberId": 1,
-      "serviceId": 1
-    },
-    {
-      "id": 3,
-      "startDate": 1579685400,
-      "barberId": 1,
-      "serviceId": 2
-    },
-    {
-      "id": 4,
-      "startDate": 1579689000,
-      "barberId": 1,
-      "serviceId": 1
-    },
-    {
-      "id": 5,
-      "startDate": 1579691400,
-      "barberId": 1,
-      "serviceId": 2
-    },
-    {
-      "id": 6,
-      "startDate": 1579698600,
-      "barberId": 1,
-      "serviceId": 1
-    },
-    {
-      "barberId": 1,
-      "serviceId": 1,
-      "startDate": 1669158000000,
-      "id": 7
-    },
-    {
-      "barberId": 1,
-      "serviceId": 3,
-      "startDate": 1669330800000,
-      "id": 8
-    },
-    {
       "barberId": 1,
       "serviceId": 2,
-      "startDate": 1669330800000,
-      "id": 9
-    },
-    {
-      "barberId": 1,
-      "serviceId": 2,
-      "startDate": 1669762800000,
-      "id": 10
-    },
-    {
-      "barberId": 1,
-      "serviceId": 2,
-      "startDate": 1669244400000,
-      "id": 11
-    },
-    {
-      "barberId": 1,
-      "serviceId": 2,
-      "startDate": 1668034800000,
-      "id": 12
-    },
-    {
-      "barberId": 1,
-      "serviceId": 2,
-      "startDate": 1669330800000,
-      "id": 13
-    },
-    {
-      "barberId": 1,
-      "serviceId": 3,
-      "startDate": 1669330800000,
-      "id": 14
-    },
-    {
-      "barberId": 1,
-      "serviceId": 2,
-      "startDate": 1669762800000,
-      "id": 15
-    },
-    {
-      "barberId": 1,
-      "serviceId": 2,
-      "startDate": 1669762800000,
-      "id": 16
-    },
-    {
-      "barberId": 1,
-      "serviceId": 2,
-      "startDate": 1669762800000,
-      "id": 17
+      "startDate": 1669590000000,
+      "startTime": "10:00",
+      "id": 1
     },
     {
       "barberId": 1,
       "serviceId": 2,
       "startDate": 1669676400000,
-      "id": 18
-    },
-    {
-      "barberId": 1,
-      "serviceId": 3,
-      "startDate": 1669849200000,
-      "id": 19
-    },
-    {
-      "barberId": 1,
-      "serviceId": 1,
-      "startDate": 1669762800000,
-      "id": 20
+      "startTime": "10:00",
+      "id": 2
     },
     {
       "barberId": 1,
       "serviceId": 2,
-      "startDate": 1669762800000,
-      "id": 21
-    },
-    {
-      "barberId": 1,
-      "serviceId": 2,
-      "startDate": 1669762800000,
-      "id": 22
-    },
-    {
-      "barberId": 1,
-      "serviceId": 2,
-      "startDate": 1674946800000,
-      "id": 23
+      "startDate": 1670281200000,
+      "startTime": "12:00",
+      "id": 3
     }
   ],
   "workHours": [

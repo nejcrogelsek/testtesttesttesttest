@@ -10,6 +10,7 @@ export interface FormRequest {
   price: number
 }
 export interface FormResponse {
+  startTime: string
   startDate: number
   barberId: number
   serviceId: number

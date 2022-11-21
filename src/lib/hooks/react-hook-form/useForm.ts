@@ -20,6 +20,7 @@ export const useForm = () => {
     formState: { errors },
     reset,
     control,
+    getValues,
   } = use({
     defaultValues: {
       first_name: '',
@@ -41,6 +42,7 @@ export const useForm = () => {
     errors,
     reset,
     control,
+    getValues,
   }
 }
 

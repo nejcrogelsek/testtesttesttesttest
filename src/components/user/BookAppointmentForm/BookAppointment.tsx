@@ -21,7 +21,7 @@ const BookAppointment: FC = () => {
   const { data: barbers } = useQuery('barbers', fetchBarbers)
   const { data: services } = useQuery('services', fetchServices)
   const { data: workHours } = useQuery('workHours', fetchWorkHours)
-  const { data: appointments } = useQuery('appointments', fetchAppointments)
+  const { data: appointmentsData } = useQuery('appointments', fetchAppointments)
 
   const theme = useTheme()
   const colors = tokens(theme.palette.mode)
@@ -31,13 +31,13 @@ const BookAppointment: FC = () => {
   const { handleSubmit, errors, reset, control } = useForm()
   const [price, setPrice] = useState(0)
   const [availableHours, setAvailableHours] = useState<string[]>([])
-  const [booked, setBooked] = useState<any[]>([])
+  const [appointments, setAppointments] = useState<FormResponse[]>([])
 
   const checkIfAlreadyBooked = async (dataset: FormRequest): Promise<boolean> => {
     const mydate = new Date(dataset.date).getTime()
-    if (booked.length <= 0) return true
-    for (let i = 0; i < booked.length; i++) {
-      const element = booked[i]
+    if (appointments.length <= 0) return true
+    for (let i = 0; i < appointments.length; i++) {
+      const element = appointments[i]
       if (element?.barberId === parseInt(dataset.barber) && mydate === element?.startDate) return false
       if (element?.barberId === parseInt(dataset.barber) && mydate === element?.startDate && parseInt(dataset.service) !== element?.serviceId) return false
     }
@@ -46,29 +46,9 @@ const BookAppointment: FC = () => {
   }
 
   useEffect(() => {
-    if (appointments && appointments.data.length > 0) {
-      setBooked(appointments.data)
+    if (appointments.length === 0 && appointmentsData && appointmentsData.data.length > 0) {
+      setAppointments(appointmentsData.data)
     }
-  }, [appointments])
-
-
-  const onSubmit = handleSubmit(async (dataset: FormRequest) => {
-    if (await checkIfAlreadyBooked(dataset)) {
-      const data: FormResponse = { barberId: parseInt(dataset.barber), serviceId: parseInt(dataset.service), startDate: new Date(dataset.date).getTime() }
-      dispatch(bookAppointment(data))
-      reset()
-      setPrice(0)
-    } else {
-      dispatch(addSnackbar({
-        id: `error-${snackbars.length}`,
-        type: SnackbarType.ERROR,
-        title: 'Your barber is unavailable at this time.',
-        close: true,
-      }))
-    }
-  })
-
-  useEffect(() => {
     if (workHours?.data.length > 0) {
       const array = workHours?.data
       const allAvailableHours: string[] = []
@@ -82,10 +62,28 @@ const BookAppointment: FC = () => {
           allAvailableHours.push(`${start + i}:00`)
         }
       }
+      // sort array
       const a = [...new Set(allAvailableHours)].sort()
       setAvailableHours(a.filter(a => !a.startsWith('11', 0) && !a.startsWith('16', 0)))
     }
-  }, [workHours])
+  }, [appointmentsData, workHours])
+
+
+  const onSubmit = handleSubmit(async (dataset: FormRequest) => {
+    if (await checkIfAlreadyBooked(dataset)) {
+      const data: FormResponse = { barberId: parseInt(dataset.barber), serviceId: parseInt(dataset.service), startDate: new Date(dataset.date).getTime(), startTime: dataset.time }
+      dispatch(bookAppointment(data))
+      reset()
+      setPrice(0)
+    } else {
+      dispatch(addSnackbar({
+        id: `error-${snackbars.length}`,
+        type: SnackbarType.ERROR,
+        title: 'Your barber is unavailable at this time.',
+        close: true,
+      }))
+    }
+  })
 
   return (
     // eslint-disable-next-line jsx-a11y/aria-role
